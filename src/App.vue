@@ -1,15 +1,31 @@
 <template>
   <h1>How fast can you catch me?</h1>
+  <button @click="start" :disabled="isPlaying">Play</button>
  
+  <div v-if="isPlaying==true">
+    <Block :delay="delay"/>
+  </div>
 </template>
 
 <script>
 
-
+import Block from "./components/Block"
 export default {
   name: 'App',
+  data() {
+    return {
+      isPlaying:false,
+      delay:null
+    }
+  },
   components: {
-    
+    Block
+  },
+  methods:{
+    start(){
+      this.isPlaying=true
+      this.delay=2000+Math.random()*5000
+    }
   }
 }
 </script>
