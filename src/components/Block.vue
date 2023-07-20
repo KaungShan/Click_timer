@@ -1,13 +1,15 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="block" v-if="showblock">Click here</div>
+  <div class="block" v-if="showblock" @click="stopTimer">Click here</div>
 </template>
 
 <script>
 export default {
     data() {
         return {
-            showblock:false
+            showblock:false,
+            timer:null,
+            score:0,
         }
     },
     props:[
@@ -15,15 +17,22 @@ export default {
     ],
     mounted(){
         setTimeout(()=>{
-            this.showblock=true
-        }, this.delay)
+            this.showblock=true,
+            this.startTimer()
+        },this.delay);
     },
-    updated(){
-        console.log("updated")
-    },
-    unmounted(){
-        console.log("unmounted")
+    methods:{
+        startTimer(){
+            this.timer=setInterval(()=>{
+                    this.score+=50
+                },50); 
+        },
+        stopTimer(){
+            clearInterval(this.timer)
+            this.$emit("endGame",this.score)
+        }
     }
+    
 }
 </script>
 
